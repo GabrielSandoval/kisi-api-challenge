@@ -2,7 +2,7 @@
 
 class PubsubJob < ApplicationJob
   queue_as :default
-  retry_on StandardError, wait: 5.seconds, attempts: 3
+  retry_on StandardError, wait: 5.minutes, attempts: 3
 
   self.queue_adapter = :pubsub
 

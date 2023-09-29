@@ -17,7 +17,7 @@ module ActiveJob
       # @param [Float] timestamp The time to perform the job.
       def enqueue_at(job, timestamp)
         data = job.arguments[0]
-        Rails.logger.info "[PubsubAdapter] Enqueue: #{data}"
+        Rails.logger.info "[PubsubAdapter] Enqueue At: #{data} - #{Time.at(timestamp)}"
 
         delay = timestamp - Time.current.to_f
 

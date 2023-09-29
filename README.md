@@ -45,3 +45,10 @@ $ docker compose run --rm worker bash
 ```
 
 If you run docker with a VM (e.g. Docker Desktop for Mac) we recommend you allocate at least 2GB Memory
+
+# Simulate traffic
+
+To simulate traffic. Run the Publisher rake task
+```
+$ bin/rails publisher:run
+```

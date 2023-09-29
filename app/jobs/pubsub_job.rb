@@ -16,9 +16,8 @@ class PubsubJob < ApplicationJob
 
   before_enqueue do |job|
     # Before Enqueueing:
-    # If it's already the 4th time, meaning the first,
-    # second, and third try failed. Then push this
-    # to :morgue queue
+    # If it's already the 3th time, meaning the first,
+    # and second try failed. Then use :morgue as queue
     if job.executions >= 2 && job.queue_name != :morgue
       job.queue_name = :morgue
     end

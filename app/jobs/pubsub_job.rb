@@ -9,6 +9,8 @@ class PubsubJob < ApplicationJob
   def perform(data)
     Rails.logger.info "[PubsubJob] Perform Now: #{data}"
 
+    raise StandardError if rand < 0.2  # fail 20% of the time
+
     Pubsub.publish!(data)
   end
 

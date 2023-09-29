@@ -16,7 +16,16 @@ module ActiveJob
       # @param [ActiveJob::Base] job The job to be performed.
       # @param [Float] timestamp The time to perform the job.
       def enqueue_at(job, timestamp)
-        raise NotImplementedError, "Check gcloud scheduler jobs create pubsub"
+        data = job.arguments[0]
+        Rails.logger.info "[PubsubAdapter] Enqueue: #{data}"
+
+        delay = timestamp - Time.current.to_f
+
+        if delay > 0
+          Concurrent::ScheduledTask.execute(delay) { Pubsub.publish!(data) }
+        else
+          Pubsub.publish!(data)
+        end
       end
     end
   end

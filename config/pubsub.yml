@@ -1,0 +1,17 @@
+default: &default
+  project_id: my-project
+  topic_name: my-topic
+  subscription_name: my-topic-sub
+  emulator_host: <%= ENV["PUBSUB_EMULATOR_HOST"] %>
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+staging:
+  <<: *default
+
+production:
+  <<: *default

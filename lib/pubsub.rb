@@ -12,12 +12,12 @@ class Pubsub
   end
 
   def publish!(message)
-    puts "[Pubsub] Publishing #{message}"
+    puts("[Pubsub] Publishing #{message}")
     topic.publish(message)
   end
 
   def listen!
-    puts "Listening to #{subscription.name}"
+    puts("Listening to #{subscription.name}")
 
     subscriber = subscription.listen do |received_message|
       data = received_message.message.attributes
@@ -26,7 +26,7 @@ class Pubsub
     end
 
     subscriber.on_error do |exception|
-      puts "[Pubsub] Exception: #{exception.class} #{exception.message}"
+      puts("[Pubsub] Exception: #{exception.class} #{exception.message}")
     end
 
     at_exit do
@@ -39,12 +39,12 @@ class Pubsub
   private
 
   def handle_message(data)
-    puts "[Pubsub] Received (ID: #{data["id"]})"
+    puts("[Pubsub] Received (ID: #{data["id"]})")
 
     start = Time.current
     sleep(data["execution_time"].to_f)
     execution_time = (Time.current - start).round(2)
-    puts "[Pubsub] Finished processing (ID: #{data["id"]}) - #{execution_time}s"
+    puts("[Pubsub] Finished processing (ID: #{data["id"]}) - #{execution_time}s")
   end
 
   def topic

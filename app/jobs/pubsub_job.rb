@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 class PubsubJob < ApplicationJob
-  queue_as :default
-  retry_on StandardError, wait: 5.minutes, attempts: 3
+  queue_as(:default)
+  retry_on(StandardError, wait: 5.minutes, attempts: 3)
 
   self.queue_adapter = :pubsub
 
   def perform(data)
-    Rails.logger.info "[PubsubJob] Perform Now: #{data}"
+    Rails.logger.info("[PubsubJob] Perform Now: #{data}")
 
-    raise StandardError if rand < 0.2  # fail 20% of the time
+    raise(StandardError) if rand < 0.2 # fail 20% of the time
 
     Pubsub.publish!(data)
   end
@@ -18,8 +18,6 @@ class PubsubJob < ApplicationJob
     # Before Enqueueing:
     # If it's already the 3th time, meaning the first,
     # and second try failed. Then use :morgue as queue
-    if job.executions >= 2 && job.queue_name != :morgue
-      job.queue_name = :morgue
-    end
+    job.queue_name = :morgue if job.executions >= 2 && job.queue_name != :morgue
   end
 end

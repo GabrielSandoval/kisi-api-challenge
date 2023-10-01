@@ -20,8 +20,7 @@ class Pubsub
     puts("Listening to #{subscription.name}")
 
     subscriber = subscription.listen do |received_message|
-      data = received_message.message.attributes
-      handle_message(data)
+      handle_message(received_message.message.attributes)
       received_message.acknowledge!
     end
 
@@ -29,9 +28,7 @@ class Pubsub
       puts("[Pubsub] Exception: #{exception.class} #{exception.message}")
     end
 
-    at_exit do
-      subscriber.stop!(10)
-    end
+    at_exit { subscriber.stop!(10) }
 
     subscriber.start
   end

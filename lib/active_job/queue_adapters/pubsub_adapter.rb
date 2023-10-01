@@ -17,7 +17,7 @@ module ActiveJob
         Rails.logger.info("[PubsubAdapter] Enqueue At: #{job.arguments[0]} - #{Time.at(timestamp)}")
         delay = timestamp - Time.current.to_f
 
-        if delay.positive? > 0
+        if delay.positive?
           Concurrent::ScheduledTask.execute(delay) { Base.execute(job.serialize) }
         else
           Base.execute(job.serialize)

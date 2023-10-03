@@ -5,11 +5,12 @@ namespace(:publisher) do
   task(run: :environment) do
     puts("Enqueueing jobs...")
 
-    100.times do |i|
-      PubsubJob.perform_later({
-                                id: i,
-                                execution_time: rand(0..5.0).round(2)
-                              })
+    10.times do |i|
+      job = PubsubJob.new(
+        { id: i, execution_time: rand(0..5.0).round(2) }
+      )
+
+      Pubsub.publish!(job.serialize.to_json)
     end
   end
 end

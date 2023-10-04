@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PubsubJob < ApplicationJob
-  retry_on(StandardError, wait: 5.minutes, attempts: 4)
+  retry_on(StandardError, wait: 5.minutes, attempts: 3)
 
   def perform(data)
     data = data.stringify_keys

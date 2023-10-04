@@ -29,7 +29,7 @@ class Pubsub
         # puts("[Pubsub] Rotating (ID: #{_job_args["id"]})")
         Pubsub.publish!(serialized_job.to_json, attributes)
       else
-        ActiveJob::Base.execute(serialized_job)
+        execute_now(received_message)
       end
     end
 
@@ -43,6 +43,16 @@ class Pubsub
   end
 
   private
+
+  def execute_now(received_message)
+    serialized_job, job_args, attributes = parse_received_message(received_message)
+    ActiveJob::Base.execute(serialized_job)
+  rescue StandardError
+    serialized_job["queue_name"] = "morgue"
+
+    puts("ID: #{job_args["id"]} sent to morgue")
+    Pubsub.publish!(serialized_job.to_json, attributes)
+  end
 
   def parse_received_message(received_message)
     data = received_message.message.data

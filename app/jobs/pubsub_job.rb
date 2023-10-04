@@ -3,8 +3,6 @@
 class PubsubJob < ApplicationJob
   retry_on(StandardError, wait: 5.minutes, attempts: 4)
 
-  self.queue_adapter = :pubsub
-
   def perform(data)
     data = data.stringify_keys
     Rails.logger.info("[PubsubJob] Perform Now: #{data}")

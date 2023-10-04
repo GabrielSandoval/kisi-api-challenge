@@ -71,6 +71,9 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
+  # Configures the custom queue adapter.
+  config.active_job.queue_adapter = :pubsub
+
   # Do not dump schema after migrations.
   # config.active_record.dump_schema_after_migration = false
 

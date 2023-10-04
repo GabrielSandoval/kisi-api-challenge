@@ -59,7 +59,7 @@ Rails.application.configure do
   config.active_support.disallowed_deprecation_warnings = []
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+  config.log_formatter = Logger::Formatter.new
 
   # Use a different logger for distributed setups.
   # require "syslog/logger"
@@ -70,6 +70,9 @@ Rails.application.configure do
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
+
+  # Configures the custom queue adapter.
+  config.active_job.queue_adapter = :pubsub
 
   # Do not dump schema after migrations.
   # config.active_record.dump_schema_after_migration = false

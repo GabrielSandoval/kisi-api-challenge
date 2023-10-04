@@ -41,8 +41,5 @@ module KisiApiChallenge
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
-
-    # Configures the custom queue adapter.
-    config.active_job.queue_adapter = :pubsub
   end
 end
